@@ -125,7 +125,7 @@ def cycle(f1, f2, f3):
                 if times == 2:
                     return f2(f1(x))
                 x = f3(f2(f1(x)))
-                times -= 3     
+                times = times - 3
         return h
     return g
         
