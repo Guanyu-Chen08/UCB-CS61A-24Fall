@@ -14,7 +14,8 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
-
+    return lambda x: f(g(x)) == g(f(x))
+        
 
 def sum_digits(y):
     """Return the sum of the digits of non-negative integer y."""
@@ -60,6 +61,13 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
+    def count(n):
+        ans = 0
+        for i in range(1, n + 1):
+            if condition(n, i):
+                ans += 1
+        return ans
+    return count
 
 
 def multiple(a, b):
@@ -71,6 +79,11 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
+    ans = 1
+    while True:
+        if ans % a == 0 and ans % b == 0:
+            return ans
+        ans += 1
 
 
 
@@ -101,4 +114,20 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    def g(n):
+        def h(x):
+            times = n
+            while True:
+                if times == 0:
+                    return x
+                if times == 1:
+                    return f1(x)
+                if times == 2:
+                    return f2(f1(x))
+                x = f3(f2(f1(x)))
+                times -= 3     
+        return h
+    return g
+        
+
 
