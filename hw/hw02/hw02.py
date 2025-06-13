@@ -57,6 +57,10 @@ def accumulate(fuse, start, n, term):
     19
     """
     "*** YOUR CODE HERE ***"
+    ans = start
+    for i in range(1, n + 1):
+        ans = fuse(ans, term(i))
+    return ans
 
 
 def summation_using_accumulate(n, term):
