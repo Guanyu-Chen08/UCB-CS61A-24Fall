@@ -168,7 +168,7 @@ def count_dollars_upward(total):
     def count_using_min_bill(total, value):
         if total < 0 or value is None:
             return 0
-        if total == 0:
+        if total == 1:
             return 1
         return count_using_min_bill(total - value, value) + count_using_min_bill(total, next_larger_dollar(value))
     return count_using_min_bill(total, 1)
