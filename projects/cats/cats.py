@@ -38,6 +38,13 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    num = 0
+    for i in paragraphs:
+        if select(i):
+            if num == k:
+                return i
+            num += 1
+    return ''
     # END PROBLEM 1
 
 
@@ -58,6 +65,19 @@ def about(subject):
 
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    for i in subject:
+        i = lower(i)
+    
+    def is_contained(word):
+        word = lower(word)
+        word = remove_punctuation(word)
+        word = split(word)
+        for i in word:
+            if i in subject:
+                return True
+        return False
+    
+    return is_contained
     # END PROBLEM 2
 
 
@@ -88,6 +108,16 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if len(typed_words) == 0:
+        if len(source_words) == 0:
+            return 100.0
+        return 0.0
+    correct_words = 0
+    for i in range(min(len(typed_words), len(source_words))):
+        if typed_words[i] == source_words[i]:
+            correct_words += 1
+    ans = correct_words / len(typed_words)
+    return ans * 100
     # END PROBLEM 3
 
 
