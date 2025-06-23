@@ -100,36 +100,6 @@ class Email:
 class Server:
     """Each Server has one instance attribute called clients that is a
     dictionary from client names to client objects.
-
-    >>> s = Server()
-    >>> # Dummy client class implementation for testing only
-    >>> class Client:
-    ...     def __init__(self, server, name):
-    ...         self.inbox = []
-    ...         self.server = server
-    ...         self.name = name
-    >>> a = Client(s, 'Alice')
-    >>> b = Client(s, 'Bob')
-    >>> s.register_client(a) 
-    >>> s.register_client(b)
-    >>> len(s.clients)  # we have registered 2 clients
-    2
-    >>> all([type(c) == str for c in s.clients.keys()])  # The keys in self.clients should be strings
-    True
-    >>> all([type(c) == Client for c in s.clients.values()])  # The values in self.clients should be Client instances
-    True
-    >>> new_a = Client(s, 'Alice')  # a new client with the same name as an existing client
-    >>> s.register_client(new_a)
-    >>> len(s.clients)  # the key of a dictionary must be unique
-    2
-    >>> s.clients['Alice'] is new_a  # the value for key 'Alice' should now be updated to the new client new_a
-    True
-    >>> e = Email("I love 61A", b, 'Alice')
-    >>> s.send(e)
-    >>> len(new_a.inbox)  # one email has been sent to new Alice
-    1
-    >>> type(new_a.inbox[0]) == Email  # a Client's inbox is a list of Email instances
-    True
     """
     def __init__(self):
         self.clients = {}
@@ -183,18 +153,18 @@ class Mint:
 
     >>> mint = Mint()
     >>> mint.year
-    2025
+    2024
     >>> dime = mint.create(Dime)
     >>> dime.year
-    2025
-    >>> Mint.present_year = 2105  # Time passes
+    2024
+    >>> Mint.present_year = 2104  # Time passes
     >>> nickel = mint.create(Nickel)
     >>> nickel.year     # The mint has not updated its stamp yet
-    2025
+    2024
     >>> nickel.worth()  # 5 cents + (80 - 50 years)
     35
-    >>> mint.update()   # The mint's year is updated to 2105
-    >>> Mint.present_year = 2180     # More time passes
+    >>> mint.update()   # The mint's year is updated to 2104
+    >>> Mint.present_year = 2179     # More time passes
     >>> mint.create(Dime).worth()    # 10 cents + (75 - 50 years)
     35
     >>> Mint().create(Dime).worth()  # A new mint has the current year
@@ -205,7 +175,7 @@ class Mint:
     >>> dime.worth()     # 20 cents + (155 - 50 years)
     125
     """
-    present_year = 2025
+    present_year = 2024
 
     def __init__(self):
         self.update()

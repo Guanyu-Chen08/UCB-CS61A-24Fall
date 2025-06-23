@@ -7,28 +7,28 @@ test = {
         {
           'code': r"""
           scm> (and)
-          362a13f62b8278cff7410c0d72fbb640
+          c65729b823194bffbccc4a162f8653bd
           # locked
           # choice: #t
           # choice: #f
           # choice: SchemeError
           scm> (and 1 #f)
-          dee55ab436bc219727575ed9b83ed831
+          da859b61586947ca44e824712fd6fca4
           # locked
           # choice: 1
           # choice: #t
           # choice: #f
           scm> (and (+ 1 1) 1)
-          e9c72ee24bf5f0040e3f510cd1634fbe
+          eb892a26497f936d1f6cae54aacc5f51
           # locked
           scm> (and #f 5)
-          dee55ab436bc219727575ed9b83ed831
+          da859b61586947ca44e824712fd6fca4
           # locked
           scm> (and 4 5 (+ 3 3))
-          68bf08aa7c411511f0a9af3cac39f793
+          5400bfc6a27547bf18367da950de4ddc
           # locked
           scm> (not (and #t #f 42 (/ 1 0)))
-          362a13f62b8278cff7410c0d72fbb640
+          c65729b823194bffbccc4a162f8653bd
           # locked
           """,
           'hidden': False,
@@ -116,28 +116,28 @@ test = {
         {
           'code': r"""
           scm> (or)
-          dee55ab436bc219727575ed9b83ed831
+          da859b61586947ca44e824712fd6fca4
           # locked
           # choice: #t
           # choice: #f
           # choice: SchemeError
           scm> (or (+ 1 1))
-          725437f086fad00d39b3b3621cfe9fef
+          2b7cdec3904f986982cbd24a0bc12887
           # locked
           # choice: 2
           # choice: #t
           # choice: #f
           scm> (not (or #f))
-          362a13f62b8278cff7410c0d72fbb640
+          c65729b823194bffbccc4a162f8653bd
           # locked
           scm> (define (zero) 0)
-          e27c97d7c851b7768c287eed5f76e62c
+          73e4210744a96a4acadb5e250f29c530
           # locked
           scm> (or (zero) 3)
-          fd0160de2f72728a572c943666b1d89b
+          a384c59daad07475a000a57b0b47b74f
           # locked
           scm> (or 4 #t (/ 1 0))
-          9871f5a05c2faba882ad6bd9ba1b836e
+          46beb7deeeb5e9af1c8d785b12558317
           # locked
           """,
           'hidden': False,

@@ -1,6 +1,6 @@
 {
     "name": "Lab 12",
-    "endpoint": "cal/cs61a/sp25/lab12",
+    "endpoint": "cal/cs61a/fa24/lab12",
     "src": [
         "lab12.sql"
     ],
@@ -8,12 +8,7 @@
         "lab*.py": "doctest",
         "tests/*.py": "ok_test"
     },
-    "default_tests": [
-        "sharing",
-        "pairs",
-        "big",
-        "remaining"
-    ],
+    "default_tests": [],
     "protocols": [
         "restore",
         "file_contents",

@@ -26,7 +26,7 @@ def calc_eval(exp):
         return OPERATORS[exp]
     elif isinstance(exp, int) or isinstance(exp, bool):   # Numbers and booleans
         return exp
-    elif _________________: # CHANGE THIS CONDITION FOR Q4, where are variables stored?
+    elif _________________: # CHANGE THIS CONDITION FOR Q4 where are variables stored?
         return _________________ # UPDATE THIS FOR Q4, how do you access a variable?
 
 def calc_apply(op, args):

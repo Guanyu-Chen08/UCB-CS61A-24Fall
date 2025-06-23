@@ -1,6 +1,6 @@
 {
     "name": "Lab 9",
-    "endpoint": "cal/cs61a/sp25/lab09",
+    "endpoint": "cal/cs61a/fa24/lab09",
     "src": [
         "lab09.scm"
     ],

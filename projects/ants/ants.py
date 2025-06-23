@@ -1,4 +1,4 @@
-"""Ants Vs. SomeBees."""
+"""CS 61A presents Ants Vs. SomeBees."""
 
 import random
 from ucb import main, interact, trace
@@ -55,7 +55,6 @@ class Insect:
     def __init__(self, health, place=None):
         """Create an Insect with a health amount and a starting PLACE."""
         self.health = health
-        self.full_health = health
         self.place = place
 
         # assign a unique ID to every insect
@@ -64,7 +63,7 @@ class Insect:
 
     def reduce_health(self, amount):
         """Reduce health by AMOUNT, and remove the insect from its place if it
-        has no health remaining. Decorated in gui.py for GUI support.
+        has no health remaining.
 
         >>> test_insect = Insect(5)
         >>> test_insect.reduce_health(2)
@@ -74,18 +73,13 @@ class Insect:
         self.health -= amount
         if self.health <= 0:
             self.zero_health_callback()
-
-            if self.place is not None:
-                self.place.remove_insect(self)
+            self.place.remove_insect(self)
 
     def action(self, gamestate):
         """The action performed each turn."""
 
     def zero_health_callback(self):
-        """
-        Called when health reaches 0 or below.
-        Decorated in gui.py to support GUI
-        """
+        """Called when health reaches 0 or below."""
 
     def add_to(self, place):
         self.place = place
@@ -169,7 +163,7 @@ class ThrowerAnt(Ant):
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
 
     def nearest_bee(self):
-        """Return a random Bee from the nearest Place (excluding the Hive) that contains Bees and is reachable from
+        """Return the nearest Bee in a Place (that is not the hive) connected to
         the ThrowerAnt's Place by following entrances.
 
         This method returns None if there is no such Bee (or none in range).
@@ -298,10 +292,10 @@ class ContainerAnt(Ant):
         # END Problem 8a
 
 
-class ProtectorAnt(ContainerAnt):
-    """ProtectorAnt provides protection to other Ants."""
+class BodyguardAnt(ContainerAnt):
+    """BodyguardAnt provides protection to other Ants."""
 
-    name = 'Protector'
+    name = 'Bodyguard'
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
@@ -432,17 +426,11 @@ class LaserAnt(ThrowerAnt):
 
     def action(self, gamestate):
         insects_and_distances = self.insects_in_front()
-        LaserAnt.play_sound_effect() # laser beam sound effect
         for insect, distance in insects_and_distances.items():
             damage = self.calculate_damage(distance)
             insect.reduce_health(damage)
             if damage:
                 self.insects_shot += 1
-
-    @classmethod
-    def play_sound_effect(cls):
-        """Play laser sound effect. Decorated in gui.py"""
-        pass
 
 
 ########
@@ -454,6 +442,7 @@ class Bee(Insect):
 
     name = 'Bee'
     damage = 1
+    is_waterproof = True
 
 
     def sting(self, ant):
@@ -462,11 +451,8 @@ class Bee(Insect):
 
     def move_to(self, place):
         """Move from the Bee's current Place to a new PLACE."""
-        if self.place is not None:
-            self.place.remove_insect(self)
-
-        if place is not None:
-            place.add_insect(self)
+        self.place.remove_insect(self)
+        place.add_insect(self)
 
     def blocked(self):
         """Return True if this Bee cannot advance to the next Place."""
@@ -491,7 +477,7 @@ class Bee(Insect):
 
     def add_to(self, place):
         place.bees.append(self)
-        super().add_to(place)
+        super().add_to( place)
 
     def remove_from(self, place):
         place.bees.remove(self)
@@ -522,11 +508,6 @@ class Boss(Wasp):
     def reduce_health(self, amount):
         super().reduce_health(min(amount, self.damage_cap))
 
-    @classmethod
-    def play_sound_effect(cls):
-        "Play sound effect when boss arrives! Decorated in gui.py"
-        pass
-
 
 class Hive(Place):
     """The Place from which the Bees launch their assault.
@@ -548,11 +529,7 @@ class Hive(Place):
 
     def strategy(self, gamestate):
         exits = [p for p in gamestate.places.values() if p.entrance is self]
-
         for bee in self.assault_plan.get(gamestate.time, []):
-            if Boss in bee.__class__.__mro__:
-                Boss.play_sound_effect()
-                GameState.display_notification('Boss Bee is Here!')
             bee.move_to(random.choice(exits))
             gamestate.active_bees.append(bee)
 
@@ -615,7 +592,6 @@ class GameState:
                 num_bees -= 1
                 self.active_bees.remove(bee)
         if num_bees == 0: # Check if player won
-            GameState.play_win_sound()
             raise AntsWinException()
         return num_bees
 
@@ -644,9 +620,7 @@ class GameState:
         """
         ant_type = self.ant_types[ant_type_name]
         if ant_type.food_cost > self.food:
-            message = f'Not enough food!'
-            print(message)
-            GameState.display_notification(message)
+            print('Not enough food remains to place ' + ant_type.__name__)
         else:
             ant = ant_type()
             self.places[place_name].add_insect(ant)
@@ -658,15 +632,6 @@ class GameState:
         place = self.places[place_name]
         if place.ant is not None:
             place.remove_insect(place.ant)
-
-    def display_notification(message):
-        """Display a notification! Decorated in gui.py for GUI support"""
-        pass
-
-    @classmethod
-    def play_win_sound(cls):
-        """Play the sound effect when ants win! Decorated in gui.py"""
-        pass
 
     @property
     def ants(self):
@@ -778,6 +743,7 @@ class AssaultPlan(dict):
     >>> AssaultPlan().add_wave(4, 2)
     {4: [Bee(3, None), Bee(3, None)]}
     """
+
     def add_wave(self, bee_type, bee_health, time, count):
         """Add a wave at time with count Bees that have the specified health."""
         bees = [bee_type(bee_health) for _ in range(count)]

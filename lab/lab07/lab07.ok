@@ -1,6 +1,6 @@
 {
     "name": "Lab 7",
-    "endpoint": "cal/cs61a/sp25/lab07",
+    "endpoint": "cal/cs61a/fa24/lab07",
     "src": [
         "lab07.py",
         "classes.py"
@@ -11,10 +11,8 @@
         "classes.py": "doctest"
     },
     "default_tests": [
-        "inheritance-abc",
         "Account",
         "FreeChecking",
-        "link",
         "without",
         "duplicate_link"
     ],

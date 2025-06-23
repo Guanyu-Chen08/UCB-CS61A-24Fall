@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '135f25d37225c75b75f5f98ae9c9c51b',
+          'answer': 'e92e90f58a272e7a74651635251ade14',
           'choices': [
             r"""
             Pair(A, Pair(B, nil)), where:
@@ -39,7 +39,7 @@ test = {
           'question': 'What is the structure of the expressions argument to do_define_form?'
         },
         {
-          'answer': '166644f7a08261ae4107d6833b0a52a8',
+          'answer': '0ed53dce7bacc4766422abc478c5c895',
           'choices': [
             'make_child_frame',
             'define',
@@ -63,16 +63,16 @@ test = {
         {
           'code': r"""
           scm> (define size 2)
-          ae481f76ec0c0306a4387ca650d0ec0a
+          cc3c061fb8167d02a4ddda1f1c19966e
           # locked
           scm> size
-          725437f086fad00d39b3b3621cfe9fef
+          2b7cdec3904f986982cbd24a0bc12887
           # locked
           scm> (define x (+ 7 3))
-          344572bfd411ffe1bccc40e3e63b0726
+          38ba916dc1f41eb239567ee41a251ecd
           # locked
           scm> x
-          67d9366cb6f9986c22bf033e28662022
+          4bc2fb48972a5d1ec1201b01e766a044
           # locked
           """,
           'hidden': False,

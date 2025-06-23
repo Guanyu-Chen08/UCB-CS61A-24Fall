@@ -1,6 +1,6 @@
 {
     "name": "Homework 7",
-    "endpoint": "cal/cs61a/sp25/hw07",
+    "endpoint": "cal/cs61a/fa24/hw07",
     "src": [
         "hw07.scm"
     ],
@@ -20,7 +20,6 @@
         "grading",
         "analytics",
         "help",
-        "followup",
         "backup"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "name": "Lab 11",
-    "endpoint": "cal/cs61a/sp25/lab11",
+    "endpoint": "cal/cs61a/fa24/lab11",
     "src": [
         "lab11.scm"
     ],
@@ -8,12 +8,7 @@
         "lab*.py": "doctest",
         "tests/*.py": "ok_test"
     },
-    "default_tests": [
-        "wwsd-quasiquote",
-        "if-program",
-        "pow",
-        "repeat-lambda"
-    ],
+    "default_tests": [],
     "protocols": [
         "restore",
         "file_contents",

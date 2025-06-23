@@ -1,6 +1,6 @@
 {
-    "name": "Scheme Interpreter Project",
-    "endpoint": "cal/cs61a/sp25/scheme",
+    "name": "Project 4: Scheme Interpreter",
+    "endpoint": "cal/cs61a/fa24/proj04",
     "src": [
         "scheme_eval_apply.py",
         "scheme_forms.py",

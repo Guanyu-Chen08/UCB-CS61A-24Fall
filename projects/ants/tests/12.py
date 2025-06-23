@@ -113,7 +113,7 @@ test = {
           >>> queen = ants.QueenAnt()
           >>> back = ants.ThrowerAnt()
           >>> front = ants.ThrowerAnt()
-          >>> guard = ants.ProtectorAnt()
+          >>> guard = ants.BodyguardAnt()
           >>> guarded = ants.ThrowerAnt()
           >>> side = ants.ThrowerAnt()
           >>> bee = ants.Bee(10)
@@ -249,7 +249,7 @@ test = {
           (104, 105)
           >>> # Turn 1
           >>> tank = ants.TankAnt()
-          >>> guard = ants.ProtectorAnt()
+          >>> guard = ants.BodyguardAnt()
           >>> queen_tank = ants.TankAnt()
           >>> queen_tunnel[6].add_insect(tank)          # Not protecting an ant
           >>> queen_tunnel[1].add_insect(guard)         # Guarding FireAnt

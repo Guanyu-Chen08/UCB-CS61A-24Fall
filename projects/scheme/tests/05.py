@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '7aff980b7b82640d20ecb441594bd3ed',
+          'answer': 'fd4dd892ccea3adcf9446dc4a9738d47',
           'choices': [
             r"""
             Pair('quote', Pair(A, nil)), where:
@@ -38,14 +38,14 @@ test = {
         {
           'code': r"""
           >>> do_quote_form(Pair(3, nil), global_frame)
-          71373a588b7d2da6b021a6a9cb2a416f
+          3c7e8a3a2176a696c3a66418f78dff6b
           # locked
           >>> do_quote_form(Pair('hi', nil), global_frame)
-          7416b5e74e5b93f7c641ed723332329a
+          95448591e64e04a7a7885d5fb9b45583
           # locked
           >>> expr = Pair(Pair('+', Pair('x', Pair(2, nil))), nil)
           >>> do_quote_form(expr, global_frame) # Make sure to use Pair notation
-          58506efc2dd19b7df05929e8a720929d
+          2301ee746b57783004f00f39498fdaed
           # locked
           """,
           'hidden': False,

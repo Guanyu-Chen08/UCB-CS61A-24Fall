@@ -1,6 +1,6 @@
 {
     "name": "Lab 6",
-    "endpoint": "cal/cs61a/sp25/lab06",
+    "endpoint": "cal/cs61a/fa24/lab06",
     "src": [
         "lab06.py",
         "classes.py"
@@ -12,7 +12,6 @@
     },
     "default_tests": [
         "BankAccount",
-        "Server",
         "Client",
         "Mint"
     ],

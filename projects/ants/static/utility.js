@@ -85,12 +85,12 @@ function formatHive() {
     // Set up and add image to bee hive
     hive = document.querySelector(".beehive");
     hive.style.position = 'relative';
-    hive.style.overflow = 'hidden';
+    hive.style.overflow = 'hideen';
     image = document.createElement('img');
-    image.setAttribute('src', `../static/assets/BeeHive.png`);
+    image.setAttribute('src', `../static/assets/fog.jpg`);
     image.style.width = '100%';
     image.style.height = '100%';
-    image.style.objectFit = 'contain';
+    image.style.objectFit = 'cover';
     image.style.opacity = '85%';
     hive.appendChild(image);
 }
@@ -108,13 +108,11 @@ function makeAntSelector(antName) {
             if (ant === antName) {
                 selectedAntsTable[ant] = true;
                 antButton.style.borderWidth = '5px';
-                antButton.style.backgroundColor = 'yellow';
                 antButton.style.borderColor = 'rgba(50, 20, 200, 0.8)';
 
             } else {
                 selectedAntsTable[ant] = false;
                 antButton.style.borderWidth = '2px';
-                antButton.style.backgroundColor = 'transparent';
                 antButton.style.borderColor = 'rgba(54, 57, 235, 0.2)';
             }
         }
@@ -178,6 +176,7 @@ function makeOnClickTile(buttonID) {
         .catch(error => {
             console.error('Error:', error);
         });
+
     }
 
     return onClickTile;
@@ -198,11 +197,7 @@ function placeAnt(antName, place, ant_id) {
     let image = document.createElement('img');
     let button = document.getElementById(place);
 
-    if (antName == "Protector" || antName == "Tank") {
-        image.setAttribute('class', 'insect-on-tile-container-img');
-    } else {
-        image.setAttribute('class', 'insect-on-tile-img');
-    }
+    image.setAttribute('class', 'insect-on-tile-img');
     image.setAttribute('src', `../static/assets/ants/${antName}.gif`);
     image.setAttribute('id', ant_id);
     button.appendChild(image);
@@ -260,8 +255,3 @@ function playMusic() {
 }
 
 
-function playSoundEffect(soundEffectName) {
-    // Play music
-    let soundEffect = document.getElementById(soundEffectName);
-    soundEffect.play();
-}

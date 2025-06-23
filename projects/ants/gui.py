@@ -174,69 +174,13 @@ def throw_at_decorator(func):
         func(self, target)
     return inner
 
-def play_boss_bee_sound():
-    """Play the sound effect when the boss bee...arrives."""
-    socketio.emit('playBossBeeSoundEffect')
-
-
-def play_laser_beam():
-    """Play the sound effect when the laser ant shoots its laser beam."""
-    socketio.emit('playLaserBeamSoundEffect')
-
-
-def play_sonic_boom():
-    """Play the sound effect when the ants win."""
-    socketio.emit('playSonicBoomSoundEffect')
-
 
 def reduce_health_decorator(func):
     """A decorator for Insect's reduce_health method."""
     def inner(self, amount):
-        old_health = self.health
-        result = func(self, amount)
-        data = {
-            'insect_id': self.id,
-            'old_health': old_health,
-            'health': self.health,
-            'full_health': self.full_health,
-            'is_bee': Bee in self.__class__.__mro__
-        }
+        data = {'insect_id': self.id}
         socketio.emit('reduceHealth', data)
-        return result
-    return inner
-
-
-def display_ants_callout_decorator(func):
-    """A decorator to display an ants callout!"""
-    def inner(self, gamestate):
-        if (self is not None):
-            data = {
-                'insect_id': self.id,
-                'name': self.name
-            }
-            socketio.emit('displayCallout', data)
-        func(self, gamestate)
-    return inner
-
-
-def display_bees_callout_decorator(func):
-    """A decorator to display a bees callout!"""
-    def inner(self, ant):
-        if (self is not None):
-            data = {
-                'insect_id': self.id,
-                'name': self.name
-            }
-            socketio.emit('displayCallout', data)
-        func(self, ant)
-    return inner
-
-
-def display_notification_decorator(func):
-    """A decorator to display a notification!"""
-    def inner(message):
-        data = {'notification': message}
-        socketio.emit('displayNotification', data)
+        return func(self, amount)
     return inner
 
 
@@ -250,23 +194,7 @@ def decorate_events():
     Bee.move_to = insect_move_decorator(Bee.move_to)
     ThrowerAnt.throw_at = throw_at_decorator(ThrowerAnt.throw_at)
     Insect.reduce_health = reduce_health_decorator(Insect.reduce_health)
-    GameState.display_notification = display_notification_decorator(GameState.display_notification)
-    Insect.action = display_ants_callout_decorator(Insect.action)
-    HarvesterAnt.action = display_ants_callout_decorator(HarvesterAnt.action)
-    ThrowerAnt.action = display_ants_callout_decorator(ThrowerAnt.action)
-    ShortThrower.action = display_ants_callout_decorator(ShortThrower.action)
-    LongThrower.action = display_ants_callout_decorator(LongThrower.action)
-    try:
-        HungryAnt.action = display_ants_callout_decorator(HungryAnt.action)
-    except NameError as e:
-        pass
-    NinjaAnt.action = display_ants_callout_decorator(NinjaAnt.action)
-    LaserAnt.action = display_ants_callout_decorator(LaserAnt.action)
-    Bee.sting = display_bees_callout_decorator(Bee.sting)
     Insect.zero_health_callback = zero_health_callback_gui
-    Boss.play_sound_effect = play_boss_bee_sound
-    LaserAnt.play_sound_effect = play_laser_beam
-    GameState.play_win_sound = play_sonic_boom
 
 
 def display_messages(port):

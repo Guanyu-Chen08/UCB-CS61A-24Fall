@@ -8,7 +8,7 @@ test = {
           'answer': 'df9239b5516819d074706715cb1822fe',
           'choices': [
             'A TankAnt does damage to all Bees in its place each turn',
-            'A TankAnt has greater health than a ProtectorAnt',
+            'A TankAnt has greater health than a BodyguardAnt',
             'A TankAnt can contain multiple ants',
             'A TankAnt increases the damage of the ant it contains'
           ],
@@ -17,7 +17,7 @@ test = {
           'multiline': False,
           'question': r"""
           Besides costing more to place, what is the only difference between a
-          TankAnt and a ProtectorAnt?
+          TankAnt and a BodyguardAnt?
           """
         }
       ],

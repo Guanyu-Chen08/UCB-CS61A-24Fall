@@ -7,14 +7,14 @@ test = {
         {
           'code': r"""
           scm> (define x 1)
-          344572bfd411ffe1bccc40e3e63b0726
+          38ba916dc1f41eb239567ee41a251ecd
           # locked
           scm> (let ((x 5))
           ....    (+ x 3))
-          e379be012ed2005e67131f006b7f6085
+          c0601ee237917e38c49efbb7371235c5
           # locked
           scm> x
-          e9c72ee24bf5f0040e3f510cd1634fbe
+          eb892a26497f936d1f6cae54aacc5f51
           # locked
           """,
           'hidden': False,
@@ -24,7 +24,7 @@ test = {
         {
           'code': r"""
           scm> (let ((a 1) (b a)) b)
-          487e5d855a4749c37e82d995b26091f7
+          ec908af60f03727428c7ee3f22ec3cd8
           # locked
           # choice: SchemeError
           # choice: 1
@@ -41,7 +41,7 @@ test = {
           ....    (let ((x 2)
           ....          (y x))
           ....        (+ y (* x 2))))
-          4a4f11fb032ec2b75309dac59b3b3254
+          27c11fef0d1b8697654b38bb53c550c8
           # locked
           """,
           'hidden': False,
@@ -51,10 +51,10 @@ test = {
         {
           'code': r"""
           scm> (let ((a 2) (a 3)) (+ a a)) ; how should we catch something like this?
-          487e5d855a4749c37e82d995b26091f7
+          ec908af60f03727428c7ee3f22ec3cd8
           # locked
           scm> (let ((y 2 3)) (+ y y)) ; should this be an allowable form?
-          487e5d855a4749c37e82d995b26091f7
+          ec908af60f03727428c7ee3f22ec3cd8
           # locked
           """,
           'hidden': False,

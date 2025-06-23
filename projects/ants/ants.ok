@@ -1,6 +1,6 @@
 {
     "name": "Project 3: Ants Vs. SomeBees",
-    "endpoint": "cal/cs61a/sp25/ants",
+    "endpoint": "cal/cs61a/fa24/ants",
     "src": [
         "ants.py"
     ],

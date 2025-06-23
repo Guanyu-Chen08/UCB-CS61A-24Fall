@@ -148,6 +148,3 @@ class Link:
             self = self.rest
         return string + str(self.first) + '>'
 
-from reprlib import recursive_repr
-Link.__repr__ = recursive_repr()(Link.__repr__)
-

@@ -9,13 +9,13 @@ test = {
           'choices': [
             'ContainerAnt class',
             'Insect class',
-            'the ProtectorAnt does not inherit from any other class',
+            'the BodyguardAnt does not inherit from any other class',
             'Ant class'
           ],
           'hidden': False,
           'locked': True,
           'multiline': False,
-          'question': 'Where does a ProtectorAnt directly inherit all of its instance attributes from?'
+          'question': 'Where does a BodyguardAnt directly inherit all of its instance attributes from?'
         }
       ],
       'scored': False,
@@ -25,12 +25,12 @@ test = {
       'cases': [
         {
           'code': r"""
-          >>> # Testing ProtectorAnt parameters
-          >>> protector = ProtectorAnt()
-          >>> ProtectorAnt.food_cost
+          >>> # Testing BodyguardAnt parameters
+          >>> bodyguard = BodyguardAnt()
+          >>> BodyguardAnt.food_cost
           c9452203eb0b0f0bd2454586a6c2fc5c
           # locked
-          >>> protector.health
+          >>> bodyguard.health
           20d533d3e06345c8bd7072212867f2d1
           # locked
           """,
@@ -53,11 +53,11 @@ test = {
           >>> # Abstraction tests
           >>> original = ContainerAnt.__init__
           >>> ContainerAnt.__init__ = lambda self, health: print("init") #If this errors, you are not calling the parent constructor correctly.
-          >>> protector = ProtectorAnt()
+          >>> bodyguard = BodyguardAnt()
           init
           >>> ContainerAnt.__init__ = original
-          >>> protector = ProtectorAnt()
-          >>> hasattr(protector, 'ant_contained')
+          >>> bodyguard = BodyguardAnt()
+          >>> hasattr(bodyguard, 'ant_contained')
           True
           """,
           'hidden': False,
@@ -76,8 +76,8 @@ test = {
       'cases': [
         {
           'code': r"""
-          >>> protector = ProtectorAnt()
-          >>> protector.action(gamestate) # Action without contained ant should not error
+          >>> bodyguard = BodyguardAnt()
+          >>> bodyguard.action(gamestate) # Action without contained ant should not error
           """,
           'hidden': False,
           'locked': False,
@@ -85,15 +85,15 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing protector performs thrower's action
-          >>> protector = ProtectorAnt()
+          >>> # Testing bodyguard performs thrower's action
+          >>> bodyguard = BodyguardAnt()
           >>> thrower = ThrowerAnt()
           >>> bee = Bee(2)
-          >>> # Place protector before thrower
-          >>> gamestate.places["tunnel_0_0"].add_insect(protector)
+          >>> # Place bodyguard before thrower
+          >>> gamestate.places["tunnel_0_0"].add_insect(bodyguard)
           >>> gamestate.places["tunnel_0_0"].add_insect(thrower)
           >>> gamestate.places["tunnel_0_3"].add_insect(bee)
-          >>> protector.action(gamestate)
+          >>> bodyguard.action(gamestate)
           >>> bee.health
           1
           """,
@@ -103,15 +103,15 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing protector performs thrower's action
-          >>> protector = ProtectorAnt()
+          >>> # Testing bodyguard performs thrower's action
+          >>> bodyguard = BodyguardAnt()
           >>> thrower = ThrowerAnt()
           >>> bee = Bee(2)
-          >>> # Place thrower before protector
+          >>> # Place thrower before bodyguard
           >>> gamestate.places["tunnel_0_0"].add_insect(thrower)
-          >>> gamestate.places["tunnel_0_0"].add_insect(protector)
+          >>> gamestate.places["tunnel_0_0"].add_insect(bodyguard)
           >>> gamestate.places["tunnel_0_3"].add_insect(bee)
-          >>> protector.action(gamestate)
+          >>> bodyguard.action(gamestate)
           >>> bee.health
           1
           """,
@@ -121,17 +121,17 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing removing a protector doesn't remove contained ant
+          >>> # Testing removing a bodyguard doesn't remove contained ant
           >>> place = gamestate.places['tunnel_0_0']
-          >>> protector = ProtectorAnt()
+          >>> bodyguard = BodyguardAnt()
           >>> test_ant = Ant(1)
-          >>> # add protector first
-          >>> place.add_insect(protector)
+          >>> # add bodyguard first
+          >>> place.add_insect(bodyguard)
           >>> place.add_insect(test_ant)
           >>> gamestate.remove_ant('tunnel_0_0')
           >>> place.ant is test_ant
           True
-          >>> protector.place is None
+          >>> bodyguard.place is None
           True
           """,
           'hidden': False,
@@ -140,17 +140,17 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing removing a protector doesn't remove contained ant
+          >>> # Testing removing a bodyguard doesn't remove contained ant
           >>> place = gamestate.places['tunnel_0_0']
-          >>> protector = ProtectorAnt()
+          >>> bodyguard = BodyguardAnt()
           >>> test_ant = Ant(1)
           >>> # add ant first
           >>> place.add_insect(test_ant)
-          >>> place.add_insect(protector)
+          >>> place.add_insect(bodyguard)
           >>> gamestate.remove_ant('tunnel_0_0')
           >>> place.ant is test_ant
           True
-          >>> protector.place is None
+          >>> bodyguard.place is None
           True
           """,
           'hidden': False,
@@ -159,15 +159,15 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing protectored ant keeps instance attributes
+          >>> # Testing bodyguarded ant keeps instance attributes
           >>> test_ant = Ant()
           >>> def new_action(gamestate):
           ...     test_ant.health += 9000
           >>> test_ant.action = new_action
           >>> place = gamestate.places['tunnel_0_0']
-          >>> protector = ProtectorAnt()
+          >>> bodyguard = BodyguardAnt()
           >>> place.add_insect(test_ant)
-          >>> place.add_insect(protector)
+          >>> place.add_insect(bodyguard)
           >>> place.ant.action(gamestate)
           >>> place.ant.ant_contained.health
           9001
@@ -178,11 +178,11 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing single ProtectorAnt cannot hold two other ants
-          >>> protector = ProtectorAnt()
+          >>> # Testing single BodyguardAnt cannot hold two other ants
+          >>> bodyguard = BodyguardAnt()
           >>> first_ant = ThrowerAnt()
           >>> place = gamestate.places['tunnel_0_0']
-          >>> place.add_insect(protector)
+          >>> place.add_insect(bodyguard)
           >>> place.add_insect(first_ant)
           >>> second_ant = ThrowerAnt()
           >>> place.add_insect(second_ant)
@@ -196,12 +196,12 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing ProtectorAnt cannot hold another ProtectorAnt
-          >>> protector1 = ProtectorAnt()
-          >>> protector2 = ProtectorAnt()
+          >>> # Testing BodyguardAnt cannot hold another BodyguardAnt
+          >>> bodyguard1 = BodyguardAnt()
+          >>> bodyguard2 = BodyguardAnt()
           >>> place = gamestate.places['tunnel_0_0']
-          >>> place.add_insect(protector1)
-          >>> place.add_insect(protector2)
+          >>> place.add_insect(bodyguard1)
+          >>> place.add_insect(bodyguard2)
           Traceback (most recent call last):
           ...
           AssertionError: Too many ants in tunnel_0_0
@@ -212,23 +212,23 @@ test = {
         },
         {
           'code': r"""
-          >>> # Testing ProtectorAnt takes all the damage
+          >>> # Testing BodyguardAnt takes all the damage
           >>> thrower = ThrowerAnt()
-          >>> protector = ProtectorAnt()
+          >>> bodyguard = BodyguardAnt()
           >>> bee = Bee(1)
           >>> place = gamestate.places['tunnel_0_0']
           >>> place.add_insect(thrower)
-          >>> place.add_insect(protector)
+          >>> place.add_insect(bodyguard)
           >>> place.add_insect(bee)
-          >>> protector.health
+          >>> bodyguard.health
           2
           >>> bee.action(gamestate)
-          >>> (protector.health, thrower.health)
+          >>> (bodyguard.health, thrower.health)
           (1, 1)
           >>> bee.action(gamestate)
-          >>> (protector.health, thrower.health)
+          >>> (bodyguard.health, thrower.health)
           (0, 1)
-          >>> protector.place is None
+          >>> bodyguard.place is None
           True
           >>> place.ant is thrower
           True
@@ -249,11 +249,11 @@ test = {
           >>> Insect.zero_health_callback = lambda x: print("insect died")
           >>> place = gamestate.places["tunnel_0_0"]
           >>> bee = Bee(3)
-          >>> protector = ProtectorAnt()
+          >>> bodyguard = BodyguardAnt()
           >>> ant = ThrowerAnt()
           >>> place.add_insect(bee)
           >>> place.add_insect(ant)
-          >>> place.add_insect(protector)
+          >>> place.add_insect(bodyguard)
           >>> bee.action(gamestate)
           >>> bee.action(gamestate)
           insect died
@@ -281,7 +281,7 @@ test = {
         {
           'code': r"""
           >>> from ants import *
-          >>> ProtectorAnt.implemented
+          >>> BodyguardAnt.implemented
           True
           """,
           'hidden': False,

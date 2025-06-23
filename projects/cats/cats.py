@@ -19,7 +19,7 @@ import random
 
 
 def pick(paragraphs, select, k):
-    """Return the Kth paragraph from PARAGRAPHS for which the SELECT function returns True.
+    """Return the Kth paragraph from PARAGRAPHS for which the SELECT returns True.
     If there are fewer than K such paragraphs, return an empty string.
 
     Arguments:
@@ -38,22 +38,15 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
-    num = 0
-    for i in paragraphs:
-        if select(i):
-            if num == k:
-                return i
-            num += 1
-    return ''
     # END PROBLEM 1
 
 
-def about(keywords):
+def about(subject):
     """Return a function that takes in a paragraph and returns whether
-    that paragraph contains one of the words in keywords.
+    that paragraph contains one of the words in SUBJECT.
 
     Arguments:
-        keywords: a list of keywords
+        subject: a list of words related to a subject
 
     >>> about_dogs = about(['dog', 'dogs', 'pup', 'puppy'])
     >>> pick(['Cute Dog!', 'That is a cat.', 'Nice pup!'], about_dogs, 0)
@@ -61,7 +54,7 @@ def about(keywords):
     >>> pick(['Cute Dog!', 'That is a cat.', 'Nice pup.'], about_dogs, 1)
     'Nice pup.'
     """
-    assert all([lower(x) == x for x in keywords]), "keywords should be lowercase."
+    assert all([lower(x) == x for x in subject]), "subjects should be lowercase."
 
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
@@ -157,7 +150,7 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """Returns the element of WORD_LIST that has the smallest difference
     from TYPED_WORD based on DIFF_FUNCTION. If multiple words are tied for the smallest difference,
     return the one that appears closest to the front of WORD_LIST. If the
-    lowest difference is greater than LIMIT, return TYPED_WORD instead.
+    difference is greater than LIMIT, return TYPED_WORD instead.
 
     Arguments:
         typed_word: a string representing a word that may contain typos
@@ -180,7 +173,7 @@ def autocorrect(typed_word, word_list, diff_function, limit):
 def furry_fixes(typed, source, limit):
     """A diff function for autocorrect that determines how many letters
     in TYPED need to be substituted to create SOURCE, then adds the difference in
-    their lengths to this value and returns the result.
+    their lengths and returns the result.
 
     Arguments:
         typed: a starting word
@@ -294,7 +287,7 @@ def time_per_word(words, timestamps_per_player):
     Arguments:
         words: a list of words, in the order they are typed.
         timestamps_per_player: A list of lists of timestamps including the time
-                          each player started typing, followed by the time each
+                          the player started typing, followed by the time the
                           player finished typing each word.
 
     >>> p = [[75, 81, 84, 90, 92], [19, 29, 35, 36, 38]]
@@ -312,8 +305,7 @@ def time_per_word(words, timestamps_per_player):
 
 
 def fastest_words(words_and_times):
-    """Return a list of lists indicating which words each player typed fastest.
-    In case of a tie, the player with the lower index is considered to be the one who typed it the fastest.
+    """Return a list of lists indicating which words each player typed fastests.
 
     Arguments:
         words_and_times: a dictionary {'words': words, 'times': times} where

@@ -5,8 +5,7 @@ const throwLeafAnimationDuration = 0.75; // seconds
 const insectDieAnimationDuration = 0.6; // seconds
 const insectsHurtAnimationDuration = 0.2; // seconds
 const insectsActionInterval = 4; // Insects take actions every 5 seconds
-const callouts = {'Harvester': 'harvest', 'Thrower': 'throw', 'Short': 'throw', 'Long': 'throw', 'Fire': 'scorch', 'Wall': 'protect', 'Hungry': 'eat', 'Protector': 'protect', 'Tank': 'protect', 'Scuba': 'throw', 'Queen': 'rally', 'Slow': 'slow', 'Scary': 'scare', 'Ninja': 'strike', 'Laser': 'pew pew', 'Bee': 'sting', 'Wasp': 'sting', 'Boss': 'sting'};
-var alreadyUpdatingFoodCounter = false;
+
 
 function inLobby(data) {
     /* Triggered by backend once player connects to server
@@ -67,16 +66,10 @@ function moveBee(data) {
         let currentTile = document.getElementById(`${data.current_pos[0]}-${data.current_pos[1]}`);
         let distance = destination.getBoundingClientRect().right - currentTile.getBoundingClientRect().right; // Calculate distance
         let beeImg = document.getElementById(`${data.bee_id}`);
-        let healthBar = document.getElementById(`Insect${data.bee_id}HealthBar`);
 
         beeImg.style.transition = `transform ${moveBeeAnimationDuration}s ease-in-out`; // Translate bee in 1.5 seconds
         beeImg.style.transform = `translateX(${distance}px)`;
         beeImg.style.top = `${(destination.offsetHeight - beeImg.offsetHeight) / 2}px`; // Sets the sprite to be in the middle of the tunnel
-
-        if (healthBar) { // health bar might not exist
-            healthBar.style.transition = beeImg.style.transition; // Copy its translating animation
-            healthBar.style.transform = beeImg.style.transform; // Move it to where the bee is moving
-        }
 
         // Remove from current tile and add to destination
         setTimeout(() => {
@@ -84,12 +77,6 @@ function moveBee(data) {
             destination.appendChild(beeImg);
             beeImg.style.transform = `translateX(0px)`;
             beeImg.style.top = `${(destination.offsetHeight - beeImg.offsetHeight) / 2}px`;
-
-            if (healthBar) { // health bar might not exist
-                healthBar.remove(); // Remove health bar from current tile
-                destination.appendChild(healthBar); // Add health bar to new tile
-                healthBar.style.transform = beeImg.style.transform; // Stop the health bar from moving to the next grid
-            }
         }, moveBeeAnimationDuration * 1000 + animationDelay);
 
     }, animationDelay * 2);
@@ -138,65 +125,10 @@ function removeInsect(data) {
         let animationDelay = 50; // milliseconds
         insect.style.transition = `opacity ${insectDieAnimationDuration}s ease-out`;
         insect.style.opacity = '0';
-
-        let healthBar = document.getElementById(`Insect${data.insect_id}HealthBar`);
-        if (healthBar) { // health bar might not exist
-            healthBar.style.transition = insect.style.transition;
-            healthBar.style.opacity = insect.style.opacity;
-        }
-
         setTimeout(() => {
             insect.remove(); // Remove html element
-            if (healthBar) { // Health bar might not exist
-                healthBar.remove();
-            }
         }, insectDieAnimationDuration * 1000 + animationDelay)
     }, throwLeafAnimationDuration * 1000 + insectsHurtAnimationDuration * 1000)
-}
-
-
-function displayNotification(data) {
-
-    let antsSection = document.querySelector('.ants-section'); // Select ants-section div
-    if (antsSection) {
-        let notification = document.createElement('div');
-        notification.className = 'notification';
-
-        let text = document.createElement('p');
-        text.innerText = data['notification'];
-
-        notification.appendChild(text);
-        antsSection.appendChild(notification);
-
-        setTimeout(() => {
-            notification.remove();
-        }, 2000);
-    }
-}
-
-function displayCallout(data) {
-    let insect = document.getElementById(data.insect_id);
-
-    if (!insect) {
-        return;
-    }
-
-    let callout = document.createElement('div');
-    callout.className = 'display-callout';
-
-    callout.textContent = callouts[data.name];
-
-    if (data.name == 'Bee' || data.name == 'Wasp' || data.name == 'Boss') {
-        callout.style.color = '#da1010';
-    } else {
-        callout.style.color = '#00b200';
-    }
-
-    insect.parentNode.appendChild(callout);
-
-    setTimeout(() => {
-        callout.remove()
-    }, 1000);
 }
 
 
@@ -235,23 +167,6 @@ function insectsTakeActions() {
 }
 
 
-function foodCounterTimer(newFood) {
-    setTimeout(() => {
-        let food_display = document.querySelector('.display-food-div');
-        let oldFoodString = food_display.innerText.split(" ")
-        let oldFood = parseInt(oldFoodString[1]);
-        if (newFood == oldFood) {
-            alreadyUpdatingFoodCounter = false;
-            return; // do nothing if we don't need to update food counts
-        }
-
-        var foodToDisplay = (newFood > oldFood) ? oldFood + 1 : oldFood - 1; // we either increase the food count or decrease it
-        food_display.innerText = `Food: ${foodToDisplay}`; // display the new food count
-
-        foodCounterTimer(newFood); //
-    }, 25);
-}
-
 function updateStats() {
     /* Called on interval. Ask server for food count and turn count */
 
@@ -262,10 +177,8 @@ function updateStats() {
         setTimeout(() => { // Use time out to avoid crashes
             let food = data.food;
             let turn = data.turn;
-            if (!alreadyUpdatingFoodCounter) {
-                alreadyUpdatingFoodCounter = true;
-                foodCounterTimer(food);
-            }
+            food_display = document.querySelector('.display-food-div');
+            food_display.innerText = `Food: ${food}`;
             food_display = document.querySelector('.display-turn-div');
             food_display.innerText = `Turn: ${turn}`;
             adjustAntButtons(data.available_ants); // Update GUI on what ants are available
@@ -277,42 +190,6 @@ function updateStats() {
     });
 }
 
-function createHealthBarIfNeeded(data) {
-    let insect = document.getElementById(data.insect_id);
-    let healthBar = document.getElementById(`Insect${data.insect_id}HealthBar`)
-
-    if (!healthBar && insect) {
-        healthBar = document.createElement('div'); // Create a new health bar
-        healthBar.id = `Insect${data.insect_id}HealthBar`; // Set its id so that you can access the current insect's health bar again
-        healthBar.className = 'HealthBarContainer'; // Link this to the HealthBarContainer style in CSS
-        healthBar.innerHTML = `<div class="HealthBarBackground"></div><div class="HealthBarFill"></div>`;
-        insect.parentNode.appendChild(healthBar); // Append this to the parent of the insect, which is the tile
-    }
-
-    return healthBar;
-}
-
-
-function getColorForHealthBar(percentage, isBee) {
-    if (isBee) {
-        if (percentage > 67) {
-            return '#4cbf26'; // green
-        } else if (percentage > 33) {
-            return '#ffff33'; // yellow
-        } else {
-            return '#f71919'; // red
-        }
-    } else {
-        if (percentage > 67) {
-            return '#2bd3fc'; // light blue
-        } else if (percentage > 33) {
-            return '#ffff33'; // yellow
-        } else {
-            return '#f71919'; // red
-        }
-    }
-}
-
 
 function reduceHealth(data) {
     /* Triggered by backend. Animates insects turning red upon receiving damage */
@@ -320,64 +197,16 @@ function reduceHealth(data) {
     const animationDelay = 100; // milliseconds
 
     setTimeout(() => {
-        playSoundEffect('hitdamage')
         let insectImg = document.getElementById(data.insect_id);
-
-        if (insectImg) {
-            let damageCounter = createDamageCounter(data); // Create a damage counter
-            var healthBar = createHealthBarIfNeeded(data); // Create a health bar
-            updateHealthBar(healthBar, data, data.is_bee); // Update the health bar when the insect takes damage
-
-            setTimeout(() => {
-                insectImg.style.transition = '';
-                insectImg.style.filter = "invert(67%) sepia(89%) saturate(7492%) hue-rotate(346deg) brightness(84%) contrast(146%)";
-            }, animationDelay)
-            setTimeout(() => {
-                insectImg.style.transition = '';
-                insectImg.style.filter = 'none';
-                damageCounter.remove(); // Remove the damage counter
-            }, animationDelay + 1000 * insectsHurtAnimationDuration)
-        }
+        setTimeout(() => {
+            insectImg.style.transition = '';
+            insectImg.style.filter = "invert(67%) sepia(89%) saturate(7492%) hue-rotate(346deg) brightness(84%) contrast(146%)";
+        }, animationDelay)
+        setTimeout(() => {
+            insectImg.style.transition = '';
+            insectImg.style.filter = 'none';
+        }, animationDelay + 1000 * insectsHurtAnimationDuration)
     }, throwLeafAnimationDuration * 1000)
-}
-
-function playBossBeeSoundEffect() {
-    playSoundEffect('bossbee');
-}
-
-function playLaserBeamSoundEffect() {
-    playSoundEffect('laserbeam');
-}
-
-function playSonicBoomSoundEffect() {
-    playSoundEffect('sonicboom');
-}
-
-function updateHealthBar(healthBar, data, isBee) {
-    let percentage = ((1.0 * data.health) / data.full_health) * 100; // Get the percentage
-
-    const fillElement = healthBar.querySelector('.HealthBarFill'); // Get the element that has the className "HealthBarFill"
-    fillElement.style.width = `${percentage}%`; // Set the width proportional to its health
-    fillElement.style.backgroundColor = getColorForHealthBar(percentage, isBee); // Get the fill color based on the health
-}
-
-
-function createDamageCounter(data) {
-    const insectImg = document.getElementById(data.insect_id); // Get the insect
-    let amount = Math.min((data.old_health - data.health), (data.old_health)).toFixed(2); // Truncates the damage counter to 2 decimals (for laser ant)
-
-    const damageCounter = document.createElement('div'); // Create a new damage counter
-    damageCounter.className = 'DamageCounter'; // Set its style in CSS to "DamageCounter"
-
-    if (((amount * 100) % 100) == 0) { // Check if it's decimals are both 0
-        damageCounter.textContent = `${parseInt(amount)}`; // Remove the decimals
-    } else {
-        damageCounter.textContent = `${amount}`; // Keep its decimals
-    }
-
-    insectImg.parentNode.appendChild(damageCounter); // Show the damage counter
-
-    return damageCounter;
 }
 
 
@@ -399,7 +228,6 @@ function throwAt(data) {
     leafImg.style.transition = `transform ${throwLeafAnimationDuration}s ease-in`;
     leafImg.style.top = `${(target.offsetHeight - leafImg.offsetHeight) / 2}px`;
     setTimeout(() => {
-        playSoundEffect('leafthrow');
         leafImg.style.transform = `translateX(${distance}px)`;
         leafImg.style.top = `${(target.offsetHeight - leafImg.offsetHeight) / 2}px`;
     }, animationDelay);
@@ -419,9 +247,4 @@ socket.on('onInsectDeath', removeInsect);
 socket.on('endGame', endGame);
 socket.on('throwAt', throwAt);
 socket.on('reduceHealth', reduceHealth);
-socket.on('displayNotification', displayNotification);
-socket.on('displayCallout', displayCallout);
-socket.on('playBossBeeSoundEffect', playBossBeeSoundEffect);
-socket.on('playLaserBeamSoundEffect', playLaserBeamSoundEffect);
-socket.on('playSonicBoomSoundEffect', playSonicBoomSoundEffect);
 

@@ -1,6 +1,6 @@
 {
     "name": "Lab 10",
-    "endpoint": "cal/cs61a/sp25/lab10",
+    "endpoint": "cal/cs61a/fa24/lab10",
     "src": [
         "lab10.py"
     ],

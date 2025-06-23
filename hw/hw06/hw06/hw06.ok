@@ -1,6 +1,6 @@
 {
     "name": "Homework 6",
-    "endpoint": "cal/cs61a/sp25/hw06",
+    "endpoint": "cal/cs61a/fa24/hw06",
     "src": [
         "hw06.py"
     ],
@@ -12,15 +12,12 @@
         "VendingMachine",
         "midsem_survey",
         "store_digits",
-        "deep_map_mut",
-        "prune_small",
-        "delete"
+        "deep_map_mut"
     ],
     "protocols": [
         "restore",
         "file_contents",
         "help",
-        "followup",
         "grading",
         "analytics",
         "unlock",

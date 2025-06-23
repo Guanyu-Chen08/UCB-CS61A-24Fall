@@ -92,7 +92,7 @@ test = {
           >>> container_laser = TankAnt()
           >>> bee2 = Bee(3)
           >>> harvester_ant = HarvesterAnt(3)
-          >>> container_ant = ProtectorAnt()
+          >>> container_ant = BodyguardAnt()
           >>> bee3 = Bee(4)
           >>> gamestate.places["tunnel_0_0"].add_insect(laser)
           >>> gamestate.places["tunnel_0_0"].add_insect(container_laser)

@@ -2,7 +2,7 @@ HW_SOURCE_FILE=__file__
 
 
 def insert_items(s, before, after):
-    """Insert after into s following each occurrence of before and then return s.
+    """Insert after into s after each occurrence of before and then return s.
 
     >>> test_s = [1, 5, 8, 5, 2, 3]
     >>> new_s = insert_items(test_s, 5, 7)

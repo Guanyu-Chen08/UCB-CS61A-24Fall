@@ -57,9 +57,6 @@ def display(fruit, count):
 from math import sqrt
 def distance(city_a, city_b):
     """
-    Returns the distance between city_a and city_b according to their
-    coordinates.
-
     >>> city_a = make_city('city_a', 0, 1)
     >>> city_b = make_city('city_b', 0, 2)
     >>> distance(city_a, city_b)

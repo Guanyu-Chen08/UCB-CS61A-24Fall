@@ -7,10 +7,10 @@ test = {
         {
           'code': r"""
           scm> (define (f x y) (+ x y))
-          3d7c962867998a3bb3bb3acf6178a0fd
+          715124391110b4a3beec8c9ba1ec3097
           # locked
           scm> f
-          d67e9003bbdbf8509fca26654472810c
+          1456de84c3edf333b6f7aee0c0624b20
           # locked
           # choice: (lambda (x y) (+ x y))
           # choice: (lambda (f x y) (+ x y))
