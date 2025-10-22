@@ -50,6 +50,10 @@ class VendingMachine:
     def __init__(self, product, price):
         """Set the product and its price, as well as other instance attributes."""
         "*** YOUR CODE HERE ***"
+        self.product = product
+        self.price = price
+        self.balance = 0
+        self.stock = 0
 
     def restock(self, n):
         """Add n to the stock and return a message about the updated stock level.
@@ -57,6 +61,8 @@ class VendingMachine:
         E.g., Current candy stock: 3
         """
         "*** YOUR CODE HERE ***"
+        self.stock += n
+        return f'Current {self.product} stock: {self.stock}'
 
     def add_funds(self, n):
         """If the machine is out of stock, return a message informing the user to restock
@@ -69,6 +75,11 @@ class VendingMachine:
         E.g., Current balance: $4
         """
         "*** YOUR CODE HERE ***"
+        if self.stock == 0:
+            return f'Nothing left to vend. Please restock. Here is your ${n}.'
+        else:
+            self.balance += n
+            return f'Current balance: ${self.balance}'
 
     def vend(self):
         """Dispense the product if there is sufficient stock and funds and
@@ -82,6 +93,19 @@ class VendingMachine:
               Please add $3 more funds.
         """
         "*** YOUR CODE HERE ***"
+        if self.stock == 0:
+            return 'Nothing left to vend. Please restock.'
+        elif self.balance < self.price:
+            return f'Please add ${self.price - self.balance} more funds.'
+        else:
+            self.stock -= 1
+            change = self.balance - self.price
+            self.balance = 0
+            if change != 0:
+                return f'Here is your {self.product} and ${change} change.'
+            else:
+                return f'Here is your {self.product}.'
+            
 
 
 def store_digits(n):
@@ -104,6 +128,17 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    num = 0
+    m = n
+    digits = []
+    while(m > 0):
+        digits.append(m % 10)
+        m //= 10
+        num += 1
+    result = Link(digits[0])
+    for i in range(1, num):
+        result = Link(digits[i], result)
+    return result
 
 
 def deep_map_mut(func, s):
@@ -126,7 +161,13 @@ def deep_map_mut(func, s):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
-
+    if s is Link.empty:
+        return
+    if isinstance(s.first, Link):
+        deep_map_mut(func, s.first)
+    else:
+        s.first = func(s.first)
+    deep_map_mut(func, s.rest)
 
 def two_list(vals, counts):
     """
@@ -147,6 +188,19 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    def merge_lists(vals, counts):
+        ans = []
+        for i in range(len(vals) - 1, -1, -1):
+            count = counts[i]
+            for _ in range(count):
+                ans.append(vals[i])
+        return ans
+    ans_list = merge_lists(vals, counts)
+    result = Link(ans_list[0])
+    for i in range(1, len(ans_list)):
+        result = Link(ans_list[i], result)
+    return result
+
 
 
 class Link:
