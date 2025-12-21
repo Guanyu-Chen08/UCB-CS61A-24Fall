@@ -128,10 +128,8 @@ def duplicate_link(s, val):
         link = Link(val, s.rest)
         s.rest = link
         duplicate_link(s.rest.rest, val)
-        return
     else:
         duplicate_link(s.rest, val)
-        return
 
 
 class Link:
